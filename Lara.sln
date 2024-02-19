@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lara.Domain", "Lara.Domain\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lara.Data", "Lara.Data\Lara.Data.csproj", "{236BE5E0-CB18-4B14-9589-2AB334C9407F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lara.Service", "Lara.Service\Lara.Service.csproj", "{C22D5BCA-7450-4A58-8044-216980175E98}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{236BE5E0-CB18-4B14-9589-2AB334C9407F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{236BE5E0-CB18-4B14-9589-2AB334C9407F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{236BE5E0-CB18-4B14-9589-2AB334C9407F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C22D5BCA-7450-4A58-8044-216980175E98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C22D5BCA-7450-4A58-8044-216980175E98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C22D5BCA-7450-4A58-8044-216980175E98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C22D5BCA-7450-4A58-8044-216980175E98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
