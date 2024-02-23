@@ -1,0 +1,6 @@
+@Lara.Application.API_HostAddress = http://localhost:5145
+
+GET {{Lara.Application.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
