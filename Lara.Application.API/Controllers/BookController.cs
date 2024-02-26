@@ -15,7 +15,13 @@ public class BookController : LaraControllerBase
         _bookService = bookService;
     }
 
-    [HttpPost]
+    [HttpGet]
+    public IActionResult Get()
+    {
+        return Ok(_bookService.Get());
+    }
+
+[HttpPost]
     public IActionResult Create([FromBody] BookDto bookDto)
     {
         var book = _bookService.Add<BookValidator, BookDto>(bookDto);
