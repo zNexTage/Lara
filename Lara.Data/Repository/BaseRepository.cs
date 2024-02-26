@@ -28,6 +28,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     public void Delete(int id)
     {
         _context.Set<TEntity>().Remove(Select(id));
+        _context.SaveChanges();
     }
 
     public IList<TEntity> Select()

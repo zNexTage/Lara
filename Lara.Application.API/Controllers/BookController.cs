@@ -21,7 +21,15 @@ public class BookController : LaraControllerBase
         return Ok(_bookService.Get());
     }
 
-[HttpPost]
+    [HttpDelete]
+    public IActionResult Delete(int id)
+    {
+        _bookService.Delete(id);
+
+        return NoContent();
+    }
+
+    [HttpPost]
     public IActionResult Create([FromBody] BookDto bookDto)
     {
         var book = _bookService.Add<BookValidator, BookDto>(bookDto);
