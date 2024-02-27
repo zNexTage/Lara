@@ -36,4 +36,12 @@ public class BookController : LaraControllerBase
 
         return Created(string.Empty, book);
     }
+    
+    [HttpPut("{id}")]
+    public IActionResult Update(int id, [FromBody] BookDto bookDto)
+    {
+        var book = _bookService.Update<BookValidator, BookDto>(id, bookDto);
+
+        return Created("", book);
+    }
 }

@@ -21,7 +21,8 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
     public void Update(TEntity obj)
     {
-        _context.Entry(obj).State = EntityState.Modified;
+        _context.Set<TEntity>().Entry(obj).State = EntityState.Modified;
+        
         _context.SaveChanges();
     }
 

@@ -42,10 +42,11 @@ public class BaseService<TEntity> : IBaseService<TEntity> where TEntity : BaseEn
         return _repository.Select(id);
     }
 
-    public TEntity Update<TValidator, TEntityDto>(TEntityDto obj) where TValidator : AbstractValidator<TEntityDto>
+    public TEntity Update<TValidator, TEntityDto>(int id, TEntityDto obj) where TValidator : AbstractValidator<TEntityDto>
     {
         Validate(obj, Activator.CreateInstance<TValidator>());
         var entity = _mapper.Map<TEntity>(obj);
+        entity.Id = id;
         
         _repository.Update(entity);
 
