@@ -1,5 +1,6 @@
 using Lara.Domain.Contracts;
 using Lara.Domain.Entities;
+using Lara.Domain.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Lara.Data.Repository;
@@ -42,7 +43,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         var entity = _context.Set<TEntity>().Find(id);
         if (entity is null)
         {
-            throw new Exception($"Não foi encontrado item com id {id}");
+            throw new NotFoundException($"Não foi encontrado item com id {id}");
         }
 
         return entity;

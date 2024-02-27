@@ -1,6 +1,7 @@
 using Lara.Domain.Contracts;
 using Lara.Domain.DataTransferObjects;
 using Lara.Domain.Entities;
+using Lara.Domain.Exceptions;
 using Lara.Service.Validators;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,21 @@ public class BookController : LaraControllerBase
     public IActionResult Get()
     {
         return Ok(_bookService.Get());
+    }
+
+    [HttpGet("{id}")]
+    public IActionResult Get(int id)
+    {
+        try
+        {
+            var book = _bookService.GetById(id);
+            return Ok(book);
+        }
+        catch (NotFoundException err)
+        {
+            return NotFound(err.Message);
+        }
+
     }
 
     [HttpDelete]
