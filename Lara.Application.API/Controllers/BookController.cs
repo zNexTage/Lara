@@ -40,9 +40,17 @@ public class BookController : LaraControllerBase
     [HttpDelete]
     public IActionResult Delete(int id)
     {
-        _bookService.Delete(id);
+        try
+        {
+            _bookService.Delete(id);
 
-        return NoContent();
+            return NoContent();
+        }
+        catch (NotFoundException err)
+        {
+            return NotFound($"Não foi localizado livro com o ID {id}");
+        }
+
     }
 
     [HttpPost]
@@ -56,8 +64,15 @@ public class BookController : LaraControllerBase
     [HttpPut("{id}")]
     public IActionResult Update(int id, [FromBody] BookDto bookDto)
     {
-        var book = _bookService.Update<BookValidator, BookDto>(id, bookDto);
+        try
+        {
+            var book = _bookService.Update<BookValidator, BookDto>(id, bookDto);
 
-        return Created("", book);
+            return Created("", book);
+        }
+        catch (NotFoundException err)
+        {
+            return NotFound($"Não foi localizado livro com o ID {id}");
+        }
     }
 }

@@ -22,6 +22,11 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
     public void Update(TEntity obj)
     {
+        if (!_context.Set<TEntity>().Any(entity => entity.Id == obj.Id))
+        {
+            throw new NotFoundException($"Não foi encontrado item com id {obj.Id}");
+        }
+        
         _context.Set<TEntity>().Entry(obj).State = EntityState.Modified;
         
         _context.SaveChanges();
