@@ -15,7 +15,7 @@ public class BookValidator : AbstractValidator<BookDto>
         RuleFor(book => book.Publisher)
             .NotEmpty().WithMessage("Informe a editora")
             .NotNull().WithMessage("Informe a editora")
-            .MaximumLength(80).WithMessage("O título deverá ter no máximo 80 caracteres");
+            .MaximumLength(80).WithMessage("A editora deverá ter no máximo 80 caracteres");
 
         RuleFor(book => book.Image)
             .NotEmpty().WithMessage("Informe a foto do livro")
@@ -28,5 +28,16 @@ public class BookValidator : AbstractValidator<BookDto>
         RuleFor(book => book.Authors)
             .NotEmpty().WithMessage("Informe o(s) autor(es) do livro")
             .NotNull().WithMessage("Informe o(s) autor(es) do livro");
+        
+        RuleForEach(book => book.Authors)
+            .ChildRules(val => 
+            val.RuleFor(author => author)
+                .NotNull()
+                .WithMessage("Informe o autor")
+                .NotEmpty()
+                .WithMessage("Informe o autor")
+                .MaximumLength(50)
+                .WithMessage("O nome do autor deve ter no máximo 50 caracteres")
+            );
     }
 }
