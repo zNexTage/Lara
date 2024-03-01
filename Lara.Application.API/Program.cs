@@ -1,9 +1,10 @@
 using System.Reflection;
 using dotenv.net;
+using Lara.Application.API.Extesions;
 using Lara.Data.Repository;
 using Lara.Domain.Contracts;
-using Lara.Domain.Entities;
 using Lara.Service.Service;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -38,6 +39,10 @@ builder.Services.AddDbContext<PgSqlContext>(opts =>
     opts.UseNpgsql($"User ID={user};Password={password};Host={host};Port={port};Database={dbName};");
 });
 
+builder.Services
+    .AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<PgSqlContext>();
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
@@ -56,5 +61,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapControllers();
+
+app.AddRoles();
 
 app.Run();
