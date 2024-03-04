@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lara.Data.Repository;
 
-public class PgSqlContext : IdentityDbContext
+public class PgSqlContext : IdentityDbContext<ApplicationUser>
 {
     public PgSqlContext(DbContextOptions<PgSqlContext> options) : base(options)
     {
@@ -18,5 +18,6 @@ public class PgSqlContext : IdentityDbContext
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Book>(new BookMap().Configure);
+        modelBuilder.Entity<ApplicationUser>(new ApplicationUserMap().Configure);
     }
 }

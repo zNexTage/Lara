@@ -3,6 +3,7 @@ using Lara.Domain.DataTransferObjects;
 using Lara.Domain.Entities;
 using Lara.Domain.Exceptions;
 using Lara.Service.Validators;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lara.Application.API.Controllers;
@@ -77,6 +78,7 @@ public class BookController : LaraControllerBase
     /// <response code="201">Livro registrado com sucesso</response>
     /// <response code="400">Os dados informados estão inválidos</response>
     [HttpPost]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public IActionResult Create([FromBody] BookDto bookDto)
     {
         try
