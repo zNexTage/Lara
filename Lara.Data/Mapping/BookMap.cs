@@ -32,6 +32,10 @@ public class BookMap : IEntityTypeConfiguration<Book>
             .HasColumnName("Authors")
             .HasColumnType("VARCHAR []");
         
+        builder.Property(prop => prop.Quantity)
+            .IsRequired()
+            .HasColumnName("Quantity")
+            .HasColumnType("INTEGER");
         //Ref: https://alexalvess.medium.com/criando-uma-api-em-net-core-baseado-na-arquitetura-ddd-2c6a409c686
     }
 }

@@ -6,4 +6,6 @@ public class BookDto
     public string Image { get; set; } = string.Empty;
     public string Publisher { get; set; } = string.Empty;
     public List<string> Authors { get; set; } = default!;
+
+    public int Quantity { get; set; } = 0;
 }
