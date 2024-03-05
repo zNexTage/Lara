@@ -14,6 +14,12 @@ namespace Lara.Application.API.Controllers
             _userService = userService;
         }
         
+        /// <summary>
+        /// Registra um usuário (cliente) na base de dados
+        /// </summary>
+        /// <param name="createUserDto"></param>
+        /// <response code="201">Retorna os dados do usuário criado.</response>
+        /// <response code="400">Os campos que foram preenchidos incorretamente.</response>
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateUserDto createUserDto)
         {
