@@ -28,6 +28,10 @@ public class BookValidator : AbstractValidator<BookDto>
         RuleFor(book => book.Authors)
             .NotEmpty().WithMessage("Informe o(s) autor(es) do livro")
             .NotNull().WithMessage("Informe o(s) autor(es) do livro");
+
+        RuleFor(book => book.Quantity)
+            .GreaterThan(0).WithMessage("A quantidade deve ser maior que zero")
+            .NotNull().WithMessage("Informe a quantidade");
         
         RuleForEach(book => book.Authors)
             .ChildRules(val => 

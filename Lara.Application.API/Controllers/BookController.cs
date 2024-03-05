@@ -78,7 +78,7 @@ public class BookController : LaraControllerBase
     /// <response code="201">Livro registrado com sucesso</response>
     /// <response code="400">Os dados informados estão inválidos</response>
     [HttpPost]
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    // [Authorize(AuthenticationSchemes = "Bearer")]
     public IActionResult Create([FromBody] BookDto bookDto)
     {
         try
@@ -89,7 +89,11 @@ public class BookController : LaraControllerBase
         }
         catch (FluentValidation.ValidationException err)
         {
-            return BadRequest(err.Data);
+            return BadRequest(err.Errors
+                .GroupBy(error => error.PropertyName)
+                .ToDictionary(group => group.Key, 
+                    group => 
+                        group.Select(error => error.ErrorMessage).ToList()));
         }
     }
     
