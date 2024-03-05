@@ -3,6 +3,7 @@ using Lara.Domain.DataTransferObjects;
 using Lara.Domain.Entities;
 using Lara.Domain.Exceptions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Lara.Service.Service;
 
@@ -42,5 +43,17 @@ public class UserService
             throw new UserCreationException(errors);
         }
 
+    }
+
+    public async Task<ReadUserDto> Get(string id)
+    {
+        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
+
+        if (user is null)
+        {
+            throw new NotFoundException($"Não foi localizado um usuário com Id {id}");
+        }
+
+        return _mapper.Map<ReadUserDto>(user);
     }
 }
