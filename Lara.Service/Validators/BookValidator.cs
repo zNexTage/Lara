@@ -32,6 +32,10 @@ public class BookValidator : AbstractValidator<BookDto>
         RuleFor(book => book.Quantity)
             .GreaterThan(0).WithMessage("A quantidade deve ser maior que zero")
             .NotNull().WithMessage("Informe a quantidade");
+
+        RuleFor(book => book.Price)
+            .GreaterThan(0).WithMessage("O preço deve ser maior que zero")
+            .NotNull().WithMessage("Informe o preço");
         
         RuleForEach(book => book.Authors)
             .ChildRules(val => 

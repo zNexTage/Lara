@@ -8,4 +8,6 @@ public class Book : BaseEntity
     public List<string> Authors { get; set; } = default!;
 
     public int Quantity { get; set; } = 0;
+
+    public decimal Price { get; set; } = 0;
 }
