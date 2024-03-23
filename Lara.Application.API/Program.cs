@@ -14,7 +14,12 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//Carrega as variáveis de ambiente.
+DotEnv.Load();
+var envVars = DotEnv.Read();
+
 // Add services to the container.
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(opt =>
@@ -28,19 +33,17 @@ builder.Services.AddSwaggerGen(opt =>
 
 builder.Services.AddControllers();
 
+var user = envVars["LARA_DB_USER_ID"];
+var password = envVars["LARA_DB_PASSWORD"];
+var host = envVars["LARA_DB_HOST"];
+var port = envVars["LARA_DB_PORT"];
+var dbName = envVars["LARA_DB_NAME"];
+
+var connectionString = $"User ID={user};Password={password};Host={host};Port={port};Database={dbName};";
+
 builder.Services.AddDbContext<PgSqlContext>(opts =>
 {
-    DotEnv.Load();
-
-    var envs = DotEnv.Read();
-
-    var user = envs["LARA_DB_USER_ID"];
-    var password = envs["LARA_DB_PASSWORD"];
-    var host = envs["LARA_DB_HOST"];
-    var port = envs["LARA_DB_PORT"];
-    var dbName = envs["LARA_DB_NAME"];
-    
-    opts.UseNpgsql($"User ID={user};Password={password};Host={host};Port={port};Database={dbName};");
+    opts.UseNpgsql(connectionString);
 });
 
 builder.Services
@@ -55,16 +58,13 @@ builder.Services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
 
 builder.Services.AddScoped<UserService>();
 
+var jwtKey = envVars["LARA_JWT_KEY"];
+builder.Services.AddScoped<IBaseTokenService, JwtService>(s => new JwtService(jwtKey));
+
 // Configuração do JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opts =>
     {
-        DotEnv.Load();
-        
-        var envVars = DotEnv.Read();
-
-        var jwtKey = envVars["LARA_JWT_KEY"];
-        
         var symmetricKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
         
         opts.TokenValidationParameters = new TokenValidationParameters()
