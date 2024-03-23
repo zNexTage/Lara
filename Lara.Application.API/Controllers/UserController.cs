@@ -1,3 +1,4 @@
+using Lara.Domain.Contracts;
 using Lara.Domain.DataTransferObjects;
 using Lara.Domain.Exceptions;
 using Lara.Service.Service;
@@ -8,10 +9,12 @@ namespace Lara.Application.API.Controllers
     public class UserController : LaraControllerBase
     {
         private readonly UserService _userService;
+        private readonly IBaseTokenService _jwtService;
 
-        public UserController(UserService userService)
+        public UserController(UserService userService, IBaseTokenService jwtService)
         {
             _userService = userService;
+            _jwtService = jwtService;
         }
         
         /// <summary>
@@ -53,6 +56,22 @@ namespace Lara.Application.API.Controllers
             catch (NotFoundException err)
             {
                 return NotFound(err.Message);
+            }
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(string email, string password)
+        {
+            try
+            {
+                var user = await _userService.Login(email, password);
+                var token = _jwtService.GenerateToken(user.Id);
+
+                return Ok(token);
+            }
+            catch (Exception err)
+            {
+                return BadRequest(err.Message);
             }
         }
     }
