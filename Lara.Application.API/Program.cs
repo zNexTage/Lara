@@ -84,7 +84,12 @@ builder.Services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
 builder.Services.AddScoped<UserService>();
 
 var jwtKey = envVars["LARA_JWT_KEY"];
-builder.Services.AddScoped<IBaseTokenService, JwtService>(s => new JwtService(jwtKey));
+builder.Services.AddScoped<IBaseTokenService, JwtService>(serviceProvider =>
+{
+    var manager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    
+    return new JwtService(jwtKey, manager);
+});
 
 // Configuração do JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
