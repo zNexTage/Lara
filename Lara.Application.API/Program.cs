@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Security.Claims;
 using dotenv.net;
 using Lara.Application.API.Extesions;
 using Lara.Data.Repository;
@@ -107,6 +108,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ClockSkew = TimeSpan.Zero
         };
     });
+
+// Adiciona regras de autoriazação.
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy => policy.RequireClaim(claimType: ClaimTypes.Role, "ADMIN"));
+});
+
 
 var app = builder.Build();
 
