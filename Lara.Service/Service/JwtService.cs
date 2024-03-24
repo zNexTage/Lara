@@ -1,8 +1,11 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using AutoMapper.Internal;
 using Lara.Domain.Contracts;
 using Lara.Domain.DataTransferObjects;
+using Lara.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Lara.Service.Service;
@@ -10,17 +13,25 @@ namespace Lara.Service.Service;
 public class JwtService : IBaseTokenService
 {
     private readonly string _jwtKey;
+    private readonly UserManager<ApplicationUser> _userManager; 
     
-    public JwtService(string jwtKey)
+    public JwtService(string jwtKey, UserManager<ApplicationUser> userManager)
     {
         _jwtKey = jwtKey;
+        _userManager = userManager;
     }
-    public TokenDto GenerateToken(string id)
+    public async Task<TokenDto> GenerateToken(ApplicationUser user)
     {
+        var roles = await _userManager.GetRolesAsync(user);
+
+        var rolesClaim = roles.Select(role => new Claim(ClaimTypes.Role, role)).ToArray();
+        
         var claims = new Claim[]
         {
-            new Claim(ClaimTypes.NameIdentifier, id)
+            new Claim(ClaimTypes.NameIdentifier, user.Id),
         };
+        
+        claims = claims.Concat(rolesClaim).ToArray();
 
         var symmetricKey = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(_jwtKey)
