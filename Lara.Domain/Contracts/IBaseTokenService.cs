@@ -1,8 +1,9 @@
 using Lara.Domain.DataTransferObjects;
+using Lara.Domain.Entities;
 
 namespace Lara.Domain.Contracts;
 
 public interface IBaseTokenService
 {
-    public TokenDto GenerateToken(string id);
+    public Task<TokenDto> GenerateToken(ApplicationUser user);
 }
