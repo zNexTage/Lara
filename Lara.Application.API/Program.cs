@@ -118,4 +118,11 @@ app.MapControllers();
 
 app.AddRoles();
 
+var adminPass = envVars["LARA_ADMIN_USER_PASSWORD"];
+app.AddAdminUser(adminPass);
+
+app.UseAuthentication();
+
+app.UseAuthorization();
+
 app.Run();
