@@ -64,8 +64,7 @@ namespace Lara.Application.API.Controllers
         {
             try
             {
-                var user = await _userService.Login(email, password);
-                var token = _jwtService.GenerateToken(user.Id);
+                var token = await _userService.Login(email, password);
 
                 return Ok(token);
             }

@@ -1,4 +1,5 @@
 using AutoMapper;
+using Lara.Domain.Contracts;
 using Lara.Domain.DataTransferObjects;
 using Lara.Domain.Entities;
 using Lara.Domain.Exceptions;
@@ -10,18 +11,17 @@ namespace Lara.Service.Service;
 public class UserService
 {
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
-
+    private readonly IBaseTokenService _jwtService;
     private readonly IMapper _mapper;
 
     public UserService(UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
-        RoleManager<IdentityRole> roleManager,
+        IBaseTokenService jwtService,
         IMapper mapper)
     {
         _userManager = userManager;
-        _roleManager = roleManager;
+        _jwtService = jwtService;
         _signInManager = signInManager;
         _mapper = mapper;
     }
@@ -63,7 +63,7 @@ public class UserService
         return _mapper.Map<ReadUserDto>(user);
     }
 
-    public async Task<ReadUserDto> Login(string email, string password)
+    public async Task<TokenDto> Login(string email, string password)
     {
         var result = await _signInManager.PasswordSignInAsync(email, password, false, false);
 
@@ -74,7 +74,9 @@ public class UserService
 
         var user = await _signInManager.UserManager.Users.FirstOrDefaultAsync(user =>
             user.Email == email)!;
-        
-        return _mapper.Map<ReadUserDto>(user);
+
+        var token = await _jwtService.GenerateToken(user);
+
+        return token;
     }
 }
