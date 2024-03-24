@@ -56,7 +56,7 @@ public class BookController : LaraControllerBase
     /// <response code="204">Livro foi removido com sucesso</response>
     /// <response code="404">Livro não localizado. Verifique o id</response>
     [HttpDelete]
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "ADMIN")]
     public IActionResult Delete(int id)
     {
         try
@@ -79,7 +79,7 @@ public class BookController : LaraControllerBase
     /// <response code="201">Livro registrado com sucesso</response>
     /// <response code="400">Os dados informados estão inválidos</response>
     [HttpPost]
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer", Policy = "AdminOnly" )]
     public IActionResult Create([FromBody] BookDto bookDto)
     {
         try
@@ -107,7 +107,7 @@ public class BookController : LaraControllerBase
     /// <response code="404">Livro não localizado. Verifique o id</response>
     /// <response code="400">Os dados informados estão inválidos</response>
     [HttpPut("{id}")]
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "ADMIN")]
     public IActionResult Update(int id, [FromBody] BookDto bookDto)
     {
         try
