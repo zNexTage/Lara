@@ -13,11 +13,13 @@ public class PgSqlContext : IdentityDbContext<ApplicationUser>
     }
 
     public DbSet<Book> Books { get; set; }
+    public DbSet<BorrowedBook> BorrowedBooks { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Book>(new BookMap().Configure);
         modelBuilder.Entity<ApplicationUser>(new ApplicationUserMap().Configure);
+        modelBuilder.Entity<BorrowedBook>(new BorrowedBookMap().Configure);
     }
 }
