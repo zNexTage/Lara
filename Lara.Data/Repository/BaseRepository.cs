@@ -7,14 +7,14 @@ namespace Lara.Data.Repository;
 
 public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
 {
-    private readonly PgSqlContext _context;
+    protected readonly PgSqlContext _context;
 
     public BaseRepository(PgSqlContext context)
     {
         _context = context;
     }
     
-    public void Insert(TEntity obj)
+    public virtual void Insert(TEntity obj)
     {
         _context.Set<TEntity>().Add(obj);
         _context.SaveChanges();
@@ -38,12 +38,12 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         _context.SaveChanges();
     }
 
-    public IList<TEntity> Select()
+    public virtual IList<TEntity> Select()
     {
         return _context.Set<TEntity>().ToList();
     }
 
-    public TEntity Select(int id)
+    public virtual TEntity Select(int id)
     {
         var entity = _context.Set<TEntity>().Find(id);
         if (entity is null)

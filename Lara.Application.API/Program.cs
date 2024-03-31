@@ -70,6 +70,7 @@ var connectionString = $"User ID={user};Password={password};Host={host};Port={po
 builder.Services.AddDbContext<PgSqlContext>(opts =>
 {
     opts.UseNpgsql(connectionString);
+    
 });
 
 builder.Services
@@ -81,6 +82,8 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
+builder.Services.AddScoped<BorrowedBookService>();
+builder.Services.AddScoped<BorrowedBookRepository>();
 
 builder.Services.AddScoped<UserService>();
 

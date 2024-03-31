@@ -16,7 +16,7 @@ public class BaseService<TEntity> : IBaseService<TEntity> where TEntity : BaseEn
         _mapper = mapper;
     }
     
-    public TEntity Add<TValidator, TEntityDto>(TEntityDto obj) where TValidator : AbstractValidator<TEntityDto>
+    public virtual TEntity Add<TValidator, TEntityDto>(TEntityDto obj) where TValidator : AbstractValidator<TEntityDto>
     {
         Validate(obj, Activator.CreateInstance<TValidator>());
 
@@ -26,23 +26,24 @@ public class BaseService<TEntity> : IBaseService<TEntity> where TEntity : BaseEn
         
         return entity;
     }
+    
 
-    public void Delete(int id)
+    public virtual void Delete(int id)
     {
         _repository.Delete(id);
     }
 
-    public IList<TEntity> Get()
+    public virtual IList<TEntity> Get()
     {
         return _repository.Select();
     }
 
-    public TEntity GetById(int id)
+    public virtual TEntity GetById(int id)
     {
         return _repository.Select(id);
     }
 
-    public TEntity Update<TValidator, TEntityDto>(int id, TEntityDto obj) where TValidator : AbstractValidator<TEntityDto>
+    public virtual TEntity Update<TValidator, TEntityDto>(int id, TEntityDto obj) where TValidator : AbstractValidator<TEntityDto>
     {
         Validate(obj, Activator.CreateInstance<TValidator>());
         var entity = _mapper.Map<TEntity>(obj);
@@ -53,7 +54,7 @@ public class BaseService<TEntity> : IBaseService<TEntity> where TEntity : BaseEn
         return entity;
     }
     
-    private void Validate<TEntityDto>(TEntityDto obj, AbstractValidator<TEntityDto> validator)
+    protected void Validate<TEntityDto>(TEntityDto obj, AbstractValidator<TEntityDto> validator)
     {
         if (obj == null)
             throw new Exception("Registros não detectados!");

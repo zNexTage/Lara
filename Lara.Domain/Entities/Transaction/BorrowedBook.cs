@@ -16,5 +16,5 @@ public enum BorrowedBookStatus
 
 public class BorrowedBook : BaseTransaction
 {
-    public BorrowedBookStatus Status { get; set; }
+    public BorrowedBookStatus Status { get; set; } = BorrowedBookStatus.AWAITING_RETURN;
 }
