@@ -35,7 +35,7 @@ public class BorrowedController : LaraControllerBase
             var createdBorrowed = _borrowedService.Add<BorrowedValidator, CreateBorrowedDto>(createBorrowedDto);
             return Created("", _mapper.Map<ReadBorrowedDto>(createdBorrowed));
         }
-        catch (NotFoundException err)
+        catch (NotFoundException err) // caso o livro informado não seja localizado.
         {
             return NotFound(err.Message);
         }
