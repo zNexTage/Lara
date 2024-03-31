@@ -161,8 +161,7 @@ namespace Lara.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookId")
-                        .IsUnique();
+                    b.HasIndex("BookId");
 
                     b.HasIndex("UserId");
 
@@ -304,8 +303,8 @@ namespace Lara.Data.Migrations
             modelBuilder.Entity("Lara.Domain.Entities.BorrowedBook", b =>
                 {
                     b.HasOne("Lara.Domain.Entities.Book", "Book")
-                        .WithOne()
-                        .HasForeignKey("Lara.Domain.Entities.BorrowedBook", "BookId")
+                        .WithMany()
+                        .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
