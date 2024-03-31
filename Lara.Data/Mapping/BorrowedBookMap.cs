@@ -18,8 +18,8 @@ public class BorrowedBookMap : IEntityTypeConfiguration<BorrowedBook>
             .HasForeignKey(borrowed => borrowed.UserId);
 
         builder.HasOne(prop => prop.Book)
-            .WithOne()
-            .HasForeignKey<BorrowedBook>(borrowed => borrowed.BookId);
+            .WithMany()
+            .HasForeignKey(borrowed => borrowed.BookId);
 
         builder.Property(prop => prop.Quantity)
             .IsRequired()
