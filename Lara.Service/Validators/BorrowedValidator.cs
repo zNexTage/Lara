@@ -8,8 +8,8 @@ public class BorrowedValidator : AbstractValidator<CreateBorrowedDto>
     public BorrowedValidator()
     {
         RuleFor(dto => dto.Quantity)
-            .GreaterThan(0)
-            .WithMessage("A quantidade deve ser superior a zero");
+            .Equal(1)
+            .WithMessage("Só é possível pegar emprestado um livro com o mesmo título uma vez.");
         
         RuleFor(dto => dto.BookId)
             .GreaterThan(0)
