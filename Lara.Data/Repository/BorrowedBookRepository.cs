@@ -36,4 +36,13 @@ public class BorrowedBookRepository : BaseRepository<BorrowedBook>
             .Reference(b => b.User)
             .Load();
     }
+
+    public bool CheckIfAlreadyBorrowed(string userId, int bookId)
+    {
+        return _context.BorrowedBooks.Any(
+            borrowed => borrowed.BookId == bookId && 
+                        borrowed.UserId == userId &&
+                        borrowed.Status != BorrowedBookStatus.RETURN_MADE 
+                        );
+    }
 }

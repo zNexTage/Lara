@@ -7,8 +7,8 @@ namespace Lara.Service.Service;
 
 public class BaseService<TEntity> : IBaseService<TEntity> where TEntity : BaseEntity
 {
-    private readonly IBaseRepository<TEntity> _repository;
-    private readonly IMapper _mapper; 
+    protected readonly IBaseRepository<TEntity> _repository;
+    protected readonly IMapper _mapper; 
 
     public BaseService(IBaseRepository<TEntity> repository, IMapper mapper)
     {
@@ -53,7 +53,14 @@ public class BaseService<TEntity> : IBaseService<TEntity> where TEntity : BaseEn
 
         return entity;
     }
-    
+
+    public TEntity Update(TEntity obj)
+    {
+        _repository.Update(obj);
+
+        return obj;
+    }
+
     protected void Validate<TEntityDto>(TEntityDto obj, AbstractValidator<TEntityDto> validator)
     {
         if (obj == null)

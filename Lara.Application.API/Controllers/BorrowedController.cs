@@ -35,9 +35,17 @@ public class BorrowedController : LaraControllerBase
             var createdBorrowed = _borrowedService.Add<BorrowedValidator, CreateBorrowedDto>(createBorrowedDto);
             return Created("", _mapper.Map<ReadBorrowedDto>(createdBorrowed));
         }
-        catch (NotFoundException err) // caso o livro informado não seja localizado.
+        catch (Exception err)
         {
-            return NotFound(err.Message);
+            return err switch
+            {
+                NotFoundException =>
+                    //Caso o livro não seja encontrado
+                    NotFound(err.Message),
+                ExceededQuantityException or AlreadyBorrowed => BadRequest(err.Message),
+                _ => StatusCode(500,
+                    "Ops! Ocorreu um erro interno. Estamos ciente do problema e estamos trabalhando para conserta-lo.")
+            };
         }
     }
 }

@@ -14,4 +14,5 @@ public interface IBaseService<TEntity> where TEntity : BaseEntity
     TEntity GetById(int id);
 
     TEntity Update<TValidator, TEntityDto>(int id, TEntityDto obj) where TValidator : AbstractValidator<TEntityDto>;
+    TEntity Update(TEntity obj);
 }
