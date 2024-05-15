@@ -55,7 +55,7 @@ public class BookController : LaraControllerBase
     /// <param name="id">Id do livro que deverá ser removido</param>
     /// <response code="204">Livro foi removido com sucesso</response>
     /// <response code="404">Livro não localizado. Verifique o id</response>
-    [HttpDelete]
+    [HttpDelete("{id}")]
     [Authorize(AuthenticationSchemes = "Bearer", Roles = "ADMIN")]
     public IActionResult Delete(int id)
     {
