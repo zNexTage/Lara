@@ -37,27 +37,6 @@ namespace Lara.Application.API.Controllers
                 return BadRequest(e.Errors);
             }
         }
-        
-        /// <summary>
-        /// Obtém um usuário pelo id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <response code="200">Dados do usuário.</response>
-        /// <response code="404">Usuário não localizado! Verifique o Id informado</response>
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
-        {
-            try
-            {
-                var user = await _userService.Get(id);
-
-                return Ok(user);
-            }
-            catch (NotFoundException err)
-            {
-                return NotFound(err.Message);
-            }
-        }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(string email, string password)
