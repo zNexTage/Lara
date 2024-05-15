@@ -8,6 +8,4 @@ public class CreateBorrowedDto
     
     [JsonIgnore]
     public string? UserId { get; set; }
-    
-    public int Quantity { get; set; }
 }

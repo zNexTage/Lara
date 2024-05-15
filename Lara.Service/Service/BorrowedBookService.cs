@@ -38,7 +38,7 @@ public class BorrowedBookService : BaseService<BorrowedBook>
         var borrowedBook = base.Add<TValidator, TEntityDto>(obj);
 
         // Atualiza a quantidade de livros disponíveis.
-        book.Quantity -= borrowedBook.Quantity;
+        book.Quantity -= 1;
          _bookService.Update(book);
 
         return borrowedBook;
