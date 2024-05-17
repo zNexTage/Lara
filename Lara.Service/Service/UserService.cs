@@ -26,6 +26,13 @@ public class UserService
         _mapper = mapper;
     }
 
+    public ReadUserDto Get(string id)
+    {
+        var user = _userManager.Users.FirstOrDefault(u => u.Id == id);
+
+        return _mapper.Map<ReadUserDto>(user);
+    }
+
     public async Task<ReadUserDto> Add(CreateUserDto createUserDto)
     {
         var user = _mapper.Map<ApplicationUser>(createUserDto);
