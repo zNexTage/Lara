@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using Lara.Domain.Entities;
+using Lara.Service.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -25,12 +26,14 @@ var envVars = DotEnv.Read();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(opt =>
 {
-    opt.SwaggerDoc("v1", new OpenApiInfo() {Title = "LARA - Biblioteca virtual", Description = "API para gerenciamento de biblioteca"});
+    opt.SwaggerDoc("v1",
+        new OpenApiInfo()
+            { Title = "LARA - Biblioteca virtual", Description = "API para gerenciamento de biblioteca" });
 
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     opt.IncludeXmlComments(xmlPath);
-    
+
     opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
     {
         Description = "Autenticação via token jwt",
@@ -40,7 +43,7 @@ builder.Services.AddSwaggerGen(opt =>
         Scheme = "Bearer",
         BearerFormat = "JWT"
     });
-    
+
     opt.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -67,11 +70,7 @@ var dbName = envVars["LARA_DB_NAME"];
 
 var connectionString = $"User ID={user};Password={password};Host={host};Port={port};Database={dbName};";
 
-builder.Services.AddDbContext<PgSqlContext>(opts =>
-{
-    opts.UseNpgsql(connectionString);
-    
-});
+builder.Services.AddDbContext<PgSqlContext>(opts => { opts.UseNpgsql(connectionString); });
 
 builder.Services
     .AddIdentity<ApplicationUser, IdentityRole>()
@@ -91,7 +90,7 @@ var jwtKey = envVars["LARA_JWT_KEY"];
 builder.Services.AddScoped<IBaseTokenService, JwtService>(serviceProvider =>
 {
     var manager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-    
+
     return new JwtService(jwtKey, manager);
 });
 
@@ -100,7 +99,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opts =>
     {
         var symmetricKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
-        
+
         opts.TokenValidationParameters = new TokenValidationParameters()
         {
             ValidateIssuer = false,
@@ -118,8 +117,29 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("AdminOnly", policy => policy.RequireClaim(claimType: ClaimTypes.Role, "ADMIN"));
 });
 
+// Injeção do serviço de email
+builder.Services.AddScoped<BorrowedMailService>(provider =>
+{
+    var email = envVars["LARA_EMAIL"];
+    var password = envVars["LARA_EMAIL_PASSWORD"];
+    var host = envVars["LARA_EMAIL_HOST"];
+    var port = Convert.ToInt32(envVars["LARA_EMAIL_PORT"]);
+
+    var emailConfig = new EmailConfiguration()
+    {
+        Email = email,
+        Port = port,
+        Host = host,
+        Password = password
+    };
+
+    return new BorrowedMailService(emailConfig);
+});
+
 
 var app = builder.Build();
+
+app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

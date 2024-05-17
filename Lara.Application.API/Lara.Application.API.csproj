@@ -31,4 +31,8 @@
       <ProjectReference Include="..\Lara.Service\Lara.Service.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Include="wwwroot\Html\EmailTemplates\BorrowedMailTemplate.html" />
+    </ItemGroup>
+
 </Project>
