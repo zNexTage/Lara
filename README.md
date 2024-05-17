@@ -16,6 +16,7 @@ Desafio proposto pelo pessoal do [DevChallenge](https://github.com/devchallenge-
 ## Definindo variáveis de ambiente
 - Dentro do projeto/diretório `Lara.Application.API` crie o arquivo
 `.env`;
+### Variáveis de ambiente para banco de dados
 - Acesse o arquivo .env e defina as seguintes variáveis de ambiente:
   ```
     LARA_DB_USER_ID=postgres
@@ -25,6 +26,16 @@ Desafio proposto pelo pessoal do [DevChallenge](https://github.com/devchallenge-
     LARA_DB_NAME=LaraDB
   ```
   - Você pode alterar os valores das variáveis de acordo com a sua necessidade.
+
+### Variáveis de ambiente para email
+- Acesse o arquivo .env e defina as seguintes variáveis de ambiente:
+```
+  LARA_EMAIL=COLOQUE_AQUI_O_EMAIL
+  LARA_EMAIL_PASSWORD=COLOQUE_AQUI_A_SENHA
+  LARA_EMAIL_HOST=COLOQUE_AQUI_O_HOST
+  LARA_EMAIL_PORT=COLOQUE_AQUI_O_PORT
+```
+- como sugestão, você pode utilizar o https://ethereal.email/ para obter um email para testes.
 
 ## Criando as tabelas no banco de dados
 - Rode o comando: `dotnet ef database update`;
@@ -49,7 +60,7 @@ Mais informações podem ser encontradas no Swagger: https://localhost:7271/swag
 
 | Verbo HTTP | URL | Descrição | Parâmetro | Autenticação |
 | ---------- | --- | --------- | --------- | ------------ |
-| POST | /api/Borrowed | Possibilita que obter um livro emprestado | Deve ser informado o id do livro a ser emprestado no corpo da requisição | Necessário estar autenticado. Deve-se acrescentar um token JWT no cabeçalho da requisição. |
+| POST | /api/Borrowed | Possibilita que obter um livro emprestado. Um email é enviado ao usuário ao obter um livro emprestado. | Deve ser informado o id do livro a ser emprestado no corpo da requisição | Necessário estar autenticado. Deve-se acrescentar um token JWT no cabeçalho da requisição. |
 
 ## User (Usuários)
 | Verbo HTTP | URL | Descrição | Parâmetro | Autenticação |
