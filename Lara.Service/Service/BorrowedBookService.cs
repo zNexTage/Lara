@@ -4,17 +4,25 @@ using Lara.Domain.Contracts;
 using Lara.Domain.DataTransferObjects;
 using Lara.Domain.Entities;
 using Lara.Domain.Exceptions;
-using Lara.Service.Validators;
 
 namespace Lara.Service.Service;
 
 public class BorrowedBookService : BaseService<BorrowedBook>
 {
     private IBaseService<Book> _bookService;
-    
-    public BorrowedBookService(BorrowedBookRepository repository, IBaseService<Book> bookService, IMapper mapper): base(repository, mapper)
+    private UserService _userService;
+    private readonly BorrowedMailService _borrowedMailService;
+
+    public BorrowedBookService(BorrowedBookRepository repository,
+        IBaseService<Book> bookService,
+        IMapper mapper,
+        UserService userService,
+        BorrowedMailService borrowedMailService
+    ) : base(repository, mapper)
     {
         _bookService = bookService;
+        _userService = userService;
+        _borrowedMailService = borrowedMailService;
     }
 
     public override BorrowedBook Add<TValidator, TEntityDto>(TEntityDto obj)
@@ -25,7 +33,8 @@ public class BorrowedBookService : BaseService<BorrowedBook>
 
         if (book.Quantity == 0)
         {
-            throw new ExceededQuantityException($"Não é possível pegar o livro {book.Title} emprestado, pois não há nenhum disponível.");
+            throw new ExceededQuantityException(
+                $"Não é possível pegar o livro {book.Title} emprestado, pois não há nenhum disponível.");
         }
 
         var repo = (BorrowedBookRepository)_repository;
@@ -39,7 +48,16 @@ public class BorrowedBookService : BaseService<BorrowedBook>
 
         // Atualiza a quantidade de livros disponíveis.
         book.Quantity -= 1;
-         _bookService.Update(book);
+        _bookService.Update(book);
+
+        var user = _userService.Get(bookDto.UserId);
+
+        var message = _borrowedMailService.CreateMessage(user.Email, "[LARA] - Empréstimo de livro", borrowedBook);
+        
+        _borrowedMailService.SendMessage(
+            user.Email, 
+            "[LARA] - Empréstimo de livro", 
+            message);
 
         return borrowedBook;
     }
