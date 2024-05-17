@@ -33,8 +33,8 @@ public class BorrowedMailService : BaseMailService
         var message = GetMessageHTMLTemplate();
         message = message.Replace("{nome_usuario}", borrowedBook.User.FirstName);
         message = message.Replace("{nome_livro}", borrowedBook.Book.Title);
-        message = message.Replace("{prazo_devolucao}", "7 dias");
-        message = message.Replace("{data_devolucao}", "25/02/2005");
+        message = message.Replace("{prazo_devolucao}", $"{BorrowedBook.RETURN_DATE_DAYS} dias");
+        message = message.Replace("{data_devolucao}", borrowedBook.ReturnDate.ToString("d"));
         message = message.Replace("{imagem_livro}", borrowedBook.Book.Image);
         
         var emailMessage = new MailMessage();

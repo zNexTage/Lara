@@ -16,7 +16,8 @@ public enum BorrowedBookStatus
 
 public class BorrowedBook : BaseTransaction
 {
+    public const int RETURN_DATE_DAYS = 7;
     public BorrowedBookStatus Status { get; set; } = BorrowedBookStatus.AWAITING_RETURN;
     
-    public DateTime ReturnDate { get; set; }
+    public DateTime ReturnDate { get; set; } = DateTime.UtcNow.AddDays(RETURN_DATE_DAYS);
 }
