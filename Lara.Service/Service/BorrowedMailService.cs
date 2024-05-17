@@ -17,7 +17,7 @@ public class BorrowedMailService : BaseMailService
 
     public string GetMessageHTMLTemplate()
     {
-        var path = Path.Combine("wwwroot", "Html", "EmailTemplates", "BorrowedMailTemplate.html");
+        var path = Path.Combine("StaticFiles", "Html", "EmailTemplates", "BorrowedMailTemplate.html");
         var body = string.Empty;
         
         using (StreamReader stream = new(path))
