@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Empréstimo de livro</title>
+</head>
+<style>
+    *{
+        font-family: Arial, sans-serif;
+    }
+    
+    .borrowed-container {
+        border: 1px solid #CCC;        
+    }
+
+    .borrowed-container > h1{
+        margin: 0 0 15px 0;
+        background-color: #c67c13;
+        color: #FFF;
+        padding: 5px;        
+    }
+    
+    .book-container {
+        display: flex;
+        flex-direction: row;
+        padding: 15px;
+    }
+
+    .book-container > p {
+        margin: 0 5px 0 5px;
+    }
+    
+    .book-image{
+        max-width: 200px;
+        width: 100%;
+        min-height: 100%;
+    }
+    
+    .book-detail {
+        padding: 0 15px 15px 15px;
+    }
+
+    .book-detail > h2 {
+        margin-top: 0;
+    }
+    
+</style>
+<body>
+    
+    <div class="borrowed-container">
+        <h1>Empréstimo de livro realizado com sucesso!</h1>
+        
+        <div class="book-container">
+            <img class="book-image" src="{imagem_livro}" alt="Capa do livro {nome_livro} " />
+                
+            <div class="book-detail">
+                <h2>
+                    {nome_livro}
+                </h2>
+                <span>
+                    Data para devolução: {data_devolucao}
+                </span>
+                <p>
+                    Olá, {nome_usuario}! Você pegou emprestado em nossa biblioteca o livro {nome_livro}. O prazo para devolução é de {prazo_devolucao}.
+                    Portanto, você deverá devolver o livro no dia {data_devolucao}. Desejamos-lhe uma boa leitura.
+                </p>
+            </div>        
+        </div>
+    </div>
+    <footer>
+        Atenciosamente,
+        Equipe LARA
+    </footer>
+</body>
+</html>
