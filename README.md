@@ -5,6 +5,8 @@ API para gerenciamento de uma biblioteca utilizando os conceitos de DDD
 
 Desafio proposto pelo pessoal do [DevChallenge](https://github.com/devchallenge-io/biblioteca-backend)
 
+![image](https://github.com/zNexTage/LaraBibliotecaVirtual/assets/42078139/60e6aad9-4af7-4400-b1b7-fbacca967c57)
+
 # Tecnologias utilizadas
 
 - .NET Core (C#);
