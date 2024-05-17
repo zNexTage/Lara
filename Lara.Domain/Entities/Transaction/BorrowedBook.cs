@@ -17,4 +17,6 @@ public enum BorrowedBookStatus
 public class BorrowedBook : BaseTransaction
 {
     public BorrowedBookStatus Status { get; set; } = BorrowedBookStatus.AWAITING_RETURN;
+    
+    public DateTime ReturnDate { get; set; }
 }
