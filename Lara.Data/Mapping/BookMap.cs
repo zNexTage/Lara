@@ -36,11 +36,7 @@ public class BookMap : IEntityTypeConfiguration<Book>
             .IsRequired()
             .HasColumnName("Quantity")
             .HasColumnType("INTEGER");
-
-        builder.Property(prop => prop.Price)
-            .IsRequired()
-            .HasColumnName("Price")
-            .HasColumnType("MONEY");
+        
         //Ref: https://alexalvess.medium.com/criando-uma-api-em-net-core-baseado-na-arquitetura-ddd-2c6a409c686
     }
 }

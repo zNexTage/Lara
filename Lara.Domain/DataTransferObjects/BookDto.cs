@@ -10,7 +10,4 @@ public class BookDto
     public List<string> Authors { get; set; } = default!;
 
     public int Quantity { get; set; } = 0;
-    
-    [DataType(DataType.Currency)]
-    public decimal Price { get; set; } = 0;
 }

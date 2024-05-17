@@ -113,10 +113,6 @@ namespace Lara.Data.Migrations
                         .HasColumnType("VARCHAR(1000)")
                         .HasColumnName("Image");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("MONEY")
-                        .HasColumnName("Price");
-
                     b.Property<string>("Publisher")
                         .IsRequired()
                         .HasColumnType("VARCHAR(80)")
